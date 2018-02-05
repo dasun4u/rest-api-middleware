@@ -23,6 +23,8 @@ class UsersTableSeeder extends Seeder
                 'email' => 'dpdasun@gmail.com',
                 'mobile' => '0710474824',
                 'avatar' => '/assets/avatar/admin.jpg',
+                'created_at' => \Carbon\Carbon::now(),
+                'updated_at' => \Carbon\Carbon::now(),
             ], [
                 'active' => 1,
                 'first_name' => 'Shalinda',
@@ -32,6 +34,8 @@ class UsersTableSeeder extends Seeder
                 'email' => 'shalinda@arimaclanka.com',
                 'mobile' => '0710474824',
                 'avatar' => null,
+                'created_at' => \Carbon\Carbon::now(),
+                'updated_at' => \Carbon\Carbon::now(),
             ], [
                 'active' => 0,
                 'first_name' => 'Thusitha',
@@ -41,6 +45,8 @@ class UsersTableSeeder extends Seeder
                 'email' => 'thusitha@arimaclanka.com',
                 'mobile' => '0710474824',
                 'avatar' => null,
+                'created_at' => \Carbon\Carbon::now(),
+                'updated_at' => \Carbon\Carbon::now(),
             ], [
                 'active' => 0,
                 'first_name' => 'Ruwan',
@@ -50,6 +56,8 @@ class UsersTableSeeder extends Seeder
                 'email' => 'ruwan@arimaclanka.com',
                 'mobile' => '0710474824',
                 'avatar' => null,
+                'created_at' => \Carbon\Carbon::now(),
+                'updated_at' => \Carbon\Carbon::now(),
             ]
         ]);
 
