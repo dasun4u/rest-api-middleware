@@ -130,7 +130,6 @@
                                 showAlert("SUCCESS", "Inactive User Status");
                             }
                         } else {
-                            $('[data-status-id="' + id + '"]').bootstrapToggle('toggle');
                             showAlert("FAIL", "Change status fail");
                         }
                     }, error: function (data) {
