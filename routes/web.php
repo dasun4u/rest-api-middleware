@@ -20,3 +20,4 @@ Route::get('/', function () {
 });
 Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('users', 'UserController');
+Route::get('users/changeStatus/{id}/{status}', 'UserController@changeStatus');

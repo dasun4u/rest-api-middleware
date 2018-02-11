@@ -10,7 +10,7 @@
                 <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
                     {{ csrf_field() }}
                     <div class="form-group set_margin_0">
-                        <label for="username" class="form-lable">Email</label>
+                        <label for="username" class="form-lable">Username</label>
                         <input id="username" type="text" class="form-control" name="username" value="{{ old('username') }}" required autofocus>
                         @if ($errors->has('username'))
                             <span class="help-block">

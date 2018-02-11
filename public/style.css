@@ -654,7 +654,6 @@ table.dataTable thead th, table.dataTable thead td {
     color: #fff;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    background-image: #ff9f5b;
     background-image: -moz-linear-gradient(top, #ff9f5b 0%, #e9071f 100%);
     background-image: -webkit-linear-gradient(top, #ff9f5b 0%, #e9071f 100%);
     background-image: linear-gradient(to bottom, #ff9f5b 0%, #e9071f 100%);
@@ -873,8 +872,10 @@ input::-moz-focus-outer {
 }
 
 /*----------------new styles----------------------*/
-.sidebar_styles > li > a > i {
-    color: #2042bc;
+.sidebar_styles > li {
+    color: #31708f;
+    background-color: #d9edf7;
+    border-bottom: 1px solid #bce8f1;
 }
 
 #play_tutorial_title {
@@ -1093,6 +1094,10 @@ input::-moz-focus-outer {
     height: 25px;
     border-radius: 50%;
     display: block;
+}
+
+.table-pad {
+    padding: 20px;
 }
 
 /*--------- D Style Stop ----------*/

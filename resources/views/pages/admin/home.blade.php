@@ -3,7 +3,7 @@
 @section('content')
     <div class="col-sm-10">
         <div class="row">
-            <div class="container">
+            <div class="col-sm-12">
                 <div class="row">
                     <div class="col-sm-10 col-sm-offset-1">
                         <h1>Dashboard</h1>
@@ -47,7 +47,8 @@
                                                 @endif
                                             @empty
                                                 <tr>
-                                                    <td colspan="5" class="text-center">All Users are in active state</td>
+                                                    <td colspan="5" class="text-center">All Users are in active state
+                                                    </td>
                                                 </tr>
                                             @endforelse
                                             </tbody>
@@ -92,7 +93,8 @@
                                                 @endif
                                             @empty
                                                 <tr>
-                                                    <td colspan="5" class="text-center">All Users are in active state</td>
+                                                    <td colspan="5" class="text-center">All Users are in active state
+                                                    </td>
                                                 </tr>
                                             @endforelse
                                             </tbody>
@@ -116,67 +118,4 @@
             </div>
         </div>
     </div>
-@endsection
-
-
-@if(Session::has('action'))
-        @if(Session::get('action')=="create")
-            @if(Session::has('status_success'))
-                <script>showAlert("SUCCESS","Agent creation successful");</script>
-            @elseif(Session::has('status_error')))
-            <script>showAlert("FAIL","Agent creation fail");</script>
-            @endif
-        @elseif(Session::get('action')=="update")
-            @if(Session::has('status_success'))
-                <script>showAlert("SUCCESS","Agent update successful");</script>
-            @elseif(Session::has('status_error')))
-            <script>showAlert("FAIL","Agent update fail");</script>
-            @endif
-        @endif
-
-    @endif
-
-    <script>
-
-        $(document).ready(function(){
-            $('#feature_table').dataTable({
-                "columnDefs": [
-                    {"className": "dt-center", "targets": "_all"}
-                ],
-                processing: true,
-                serverSide: true,
-                ajax : '{!! url('/load-agents') !!}',
-                columns: [
-                    {data: 'id', name: 'id'},
-                    {data: 'name', name: 'name'},
-                    {data: 'mobile', name: 'mobile'},
-                    {data: 'action', name: 'action', orderable: false, searchable: false}
-                ]
-            });
-        });
-
-        $(document.body).on("click",".remove-agent", function () {
-
-            var agent_id = $(this).data('id');
-            showConfirm("DELETE", "Do you want to delete this Agent ?","deleteAgent("+agent_id+")");
-        });
-
-        function deleteAgent(id){
-            $.ajax({
-                type: 'get',
-                url: '{!! url('delete-agent') !!}',
-                data: {agent_id: id},
-                success: function (data) {
-                    if (data == "SUCCESS") {
-                        $('[data-id="' + id + '"]').closest('tr').remove();
-                        showAlert("SUCCESS","Delete Agent successful");
-                    }
-                }, error: function (data) {
-
-                    showAlert("FAIL","Delete Agent fail");
-                }
-            });
-        }
-    </script>
-
 @endsection

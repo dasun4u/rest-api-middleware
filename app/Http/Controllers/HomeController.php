@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Application;
 use App\User;
-use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
@@ -27,6 +26,6 @@ class HomeController extends Controller
     {
         $inactive_users = User::where('username','!=','admin')->where('active',0)->get();
         $pending_applications = Application::where('approved',0)->get();
-        return view('home', ['users'=>$inactive_users,'applications'=>$pending_applications]);
+        return view('pages.admin.home', ['users' => $inactive_users, 'applications' => $pending_applications]);
     }
 }
