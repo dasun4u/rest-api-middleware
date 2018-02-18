@@ -40,7 +40,7 @@
                                                     <tr>
                                                         <td colspan="5">
                                                             <a class="btn btn-primary pull-right"
-                                                               href="{{ url('users') }}">View More</a>
+                                                               href="{{ url('admin/users') }}">View More</a>
                                                         </td>
                                                     </tr>
                                                     @break
@@ -86,7 +86,7 @@
                                                     <tr>
                                                         <td colspan="5">
                                                             <a class="btn btn-primary pull-right"
-                                                               href="{{ url('applications') }}">View More</a>
+                                                               href="{{ url('admin/applications') }}">View More</a>
                                                         </td>
                                                     </tr>
                                                     @break

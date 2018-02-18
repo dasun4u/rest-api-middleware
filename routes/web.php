@@ -15,9 +15,10 @@
 Auth::routes();
 Route::get('/logout', 'Auth\LoginController@logout');
 
-Route::get('/', function () {
-    return redirect('/home');
+Route::get('/', 'Controller@home')->name('home');
+
+Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
+    Route::get('home', 'Admin\HomeController@index')->name('admin_home');
+    Route::resource('users', 'Admin\UserController');
+    Route::get('users/changeStatus/{id}/{status}', 'Admin\UserController@changeStatus');
 });
-Route::get('/home', 'HomeController@index')->name('home');
-Route::resource('users', 'UserController');
-Route::get('users/changeStatus/{id}/{status}', 'UserController@changeStatus');

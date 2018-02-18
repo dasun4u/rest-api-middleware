@@ -84,7 +84,7 @@
             function deleteUser(id) {
                 $.ajax({
                     type: 'delete',
-                    url: '{!! url('users') !!}/' + id,
+                    url: '{!! url('admin/users') !!}/' + id,
                     success: function (data) {
                         if (data["status"] == "SUCCESS") {
                             $('[data-delete-id="' + id + '"]').closest('tr').remove();
@@ -117,7 +117,7 @@
             function changeStatus(id, status) {
                 $.ajax({
                     type: 'get',
-                    url: '{!! url('users/changeStatus/') !!}/' + id + '/' + status,
+                    url: '{!! url('admin/users/changeStatus/') !!}/' + id + '/' + status,
                     success: function (data) {
                         if (data["status"] == "SUCCESS") {
                             if (status == 1) {
