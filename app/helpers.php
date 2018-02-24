@@ -51,3 +51,15 @@ function applicationKeyDecode($key)
     $code2 = str_rot13($code1);
     return $code2;
 }
+
+function sessionClear($sessionKeys)
+{
+    if(is_array($sessionKeys)){
+        foreach ($sessionKeys as $sessionKey){
+            session()->forget($sessionKey);
+        }
+    } else if(is_string($sessionKeys)) {
+        session()->forget($sessionKeys);
+    }
+    return true;
+}

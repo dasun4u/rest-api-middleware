@@ -50,28 +50,11 @@
                             @endforelse
                             </tbody>
                         </table>
+                        {{ $users->links() }}
                     </div>
                 </div>
             </div>
         </div>
-
-
-        @if(Session::has('action'))
-            @if(Session::get('action')=="create")
-                @if(Session::has('status_success'))
-                    <script>showAlert("SUCCESS", "Agent creation successful");</script>
-                @elseif(Session::has('status_error')))
-                <script>showAlert("FAIL", "Agent creation fail");</script>
-                @endif
-            @elseif(Session::get('action')=="update")
-                @if(Session::has('status_success'))
-                    <script>showAlert("SUCCESS", "Agent update successful");</script>
-                @elseif(Session::has('status_error')))
-                <script>showAlert("FAIL", "Agent update fail");</script>
-                @endif
-            @endif
-
-        @endif
 
         <script>
             // Remove User Confirmation

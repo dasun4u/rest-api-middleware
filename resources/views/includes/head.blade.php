@@ -98,4 +98,16 @@
 </script>
 <!-- End Confirm Alert Modal -->
 
-
+@if(session()->has('action') && session()->has('status_success') && session()->has('alert_message'))
+    <script>
+        var alert_message = '{{ session()->has('alert_message') }}';
+        {{ sessionClear(['action','status_success']) }}
+        showAlert("SUCCESS", alert_message);
+    </script>
+@elseif(session()->has('action') && session()->has('status_error') && session()->has('alert_message')))
+<script>
+    var alert_message = '{{ session()->has('alert_message') }}';
+    {{ sessionClear(['action','status_success']) }}
+    showAlert("FAIL", alert_message);
+</script>
+@endif

@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Application;
 use App\Http\Controllers\Controller;
-use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class UserController extends Controller
+class ApplicationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +16,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::where('username', '!=', 'admin')->paginate(10);
-        return view('pages.admin.user.list', ['users' => $users]);
+        $applications = Application::paginate(10);
+        return view('pages.admin.application.list', ['applications' => $applications]);
     }
 
     /**
@@ -32,7 +33,7 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -43,7 +44,7 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -54,7 +55,7 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -65,8 +66,8 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -77,26 +78,38 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        $delete = User::find($id)->delete();
+        $delete = Application::find($id)->delete();
         if ($delete) {
             return response()->json(["id" => $id, "status" => "SUCCESS", "message" => "Successfully Deleted"]);
         }
         return response()->json(["id" => $id, "status" => "FAIL", "message" => "Error in Delete"]);
-
     }
 
     public function changeStatus($id, $status)
     {
-        $user = User::find($id);
-        if ($user != null) {
-            $user->active = $status;
-            if ($user->save()) {
+        $application = Application::find($id);
+        if ($application != null) {
+            $application->active = $status;
+            if ($application->save()) {
                 return response()->json(["id" => $id, "status" => "SUCCESS", "message" => "Successfully Change the status"]);
+            }
+        }
+        return response()->json(["id" => $id, "status" => "FAIL", "message" => "Error in Change Status"]);
+    }
+
+    public function changeApprove($id, $status)
+    {
+        $application = Application::find($id);
+        if ($application != null) {
+            $application->approved = $status;
+            $application->approved_by = Auth::user()->id;
+            if ($application->save()) {
+                return response()->json(["id" => $id, "status" => "SUCCESS", "message" => "Successfully Changed"]);
             }
         }
         return response()->json(["id" => $id, "status" => "FAIL", "message" => "Error in Change Status"]);
