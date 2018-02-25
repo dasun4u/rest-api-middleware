@@ -1100,6 +1100,18 @@ input::-moz-focus-outer {
     padding: 20px;
 }
 
+.btn-div-pad {
+    padding-top: 15px;
+}
+
+.form-btn-pad-bottom {
+    padding-bottom: 30px;
+}
+
+.form-btn-pad-left {
+    padding-left: 20px;
+}
+
 /*--------- D Style Stop ----------*/
 
 @media only screen and (min-width: 992px) {

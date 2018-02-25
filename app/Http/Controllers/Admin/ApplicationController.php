@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Application;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\ApplicationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -27,7 +28,7 @@ class ApplicationController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.admin.application.create');
     }
 
     /**
@@ -36,9 +37,30 @@ class ApplicationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ApplicationRequest $request)
     {
-        //
+        $application = new Application();
+        $application->name = $request->input('name');
+        $application->description = $request->input('description');
+        $application->token_validity = $request->input('token_validity');
+        $application->active = ($request->input('active')=="on")?1:0;
+        $application->approved = ($request->input('approved')=="on")?1:0;
+        $application->approved_by = ($request->input('approved')=="on")?Auth::user()->id:0;
+        $application->created_by = Auth::user()->id;
+        $application->production_key = $request->input('production_key');
+        $application->production_secret = $request->input('production_secret');
+        $application->sandbox_key = $request->input('sandbox_key');
+        $application->sandbox_secret = $request->input('sandbox_secret');
+        if($application->save()){
+            session()->flash('action','Application Create');
+            session()->flash('status_success','SUCCESS');
+            session()->flash('alert_message','Application create successfully');
+        } else {
+            session()->flash('action','Application Create');
+            session()->flash('status_error','FAIL');
+            session()->flash('alert_message','Error in Application create');
+        }
+        return redirect('admin/applications');
     }
 
     /**
@@ -49,7 +71,9 @@ class ApplicationController extends Controller
      */
     public function show($id)
     {
-        //
+        $application = Application::find($id);
+        return view('pages.admin.application.show', ['application' => $application]);
+
     }
 
     /**
@@ -60,7 +84,8 @@ class ApplicationController extends Controller
      */
     public function edit($id)
     {
-        //
+        $application = Application::find($id);
+        return view('pages.admin.application.edit', ['application' => $application]);
     }
 
     /**
@@ -72,7 +97,29 @@ class ApplicationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $application = Application::find($id);
+        if($application!=null) {
+            $application->name = $request->input('name');
+            $application->description = $request->input('description');
+            $application->token_validity = $request->input('token_validity');
+            $application->active = ($request->input('active') == "on") ? 1 : 0;
+            $application->approved = ($request->input('approved') == "on") ? 1 : 0;
+            $application->approved_by = ($request->input('approved') == "on") ? Auth::user()->id : 0;
+            if ($application->save()) {
+                session()->flash('action', 'Application Update');
+                session()->flash('status_success', 'SUCCESS');
+                session()->flash('alert_message', 'Application update successfully');
+            } else {
+                session()->flash('action', 'Application Update');
+                session()->flash('status_error', 'FAIL');
+                session()->flash('alert_message', 'Error in Application update');
+            }
+        } else {
+            session()->flash('action', 'Application Update');
+            session()->flash('status_error', 'FAIL');
+            session()->flash('alert_message', 'Invalid Application');
+        }
+        return redirect('admin/applications');
     }
 
     /**
@@ -113,5 +160,13 @@ class ApplicationController extends Controller
             }
         }
         return response()->json(["id" => $id, "status" => "FAIL", "message" => "Error in Change Status"]);
+    }
+
+    public function generateKeys($scope)
+    {
+        $upper_scope = strtoupper($scope);
+        $key = applicationKeyGenerate($upper_scope);
+        $secret = str_random(40);
+        return response()->json(["status" => "SUCCESS", "message" => $upper_scope." token generate successful", "key" => $key, "secret" => $secret]);
     }
 }

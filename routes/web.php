@@ -17,11 +17,12 @@ Route::get('/logout', 'Auth\LoginController@logout');
 
 Route::get('/', 'Controller@home')->name('home');
 
-Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'namespace'=>'Admin'], function () {
+Route::group(['prefix' => 'admin', 'middleware' => ['auth','admin'], 'namespace'=>'Admin'], function () {
     Route::get('home', 'HomeController@index')->name('admin_home');
     Route::resource('users', 'UserController');
     Route::get('users/changeStatus/{id}/{status}', 'UserController@changeStatus');
     Route::resource('applications', 'ApplicationController');
     Route::get('applications/changeStatus/{id}/{status}', 'ApplicationController@changeStatus');
     Route::get('applications/changeApprove/{id}/{status}', 'ApplicationController@changeApprove');
+    Route::get('applications/generateKeys/{scope}', 'ApplicationController@generateKeys');
 });

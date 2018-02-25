@@ -5,8 +5,13 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="row">
-                    <div class="col-sm-10 col-sm-offset-1">
+                    <div class="col-sm-6 col-sm-offset-1">
                         <h1>Applications</h1>
+                    </div>
+                    <div class="col-sm-4 btn-div-pad">
+                        <a href="{{ url('/admin/applications/create') }}">
+                            <button class="btn btn-success pull-right">Create new Application</button>
+                        </a>
                     </div>
                 </div>
                 <div class="row">
@@ -21,7 +26,7 @@
                                 <th>Created Time</th>
                                 <th class="text-center">Active</th>
                                 <th class="text-center">Approve</th>
-                                <th class="text-center">Delete</th>
+                                <th class="text-center" colspan="3">Options</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -33,19 +38,37 @@
                                     <td>{{ $application->createdBy->username }}</td>
                                     <td>{{ \Carbon\Carbon::parse($application->created_at)->toDateTimeString() }}</td>
                                     <td>
-                                        <input type="checkbox" {{ $application->active?"checked":"" }} class="toggle-switch-active"
-                                               data-toggle="toggle" data-status-id="{{ $application->id }}" data-on="Active"
+                                        <input type="checkbox"
+                                               {{ $application->active?"checked":"" }} class="toggle-switch-active"
+                                               data-toggle="toggle" data-status-id="{{ $application->id }}"
+                                               data-on="Active"
                                                data-off="Inactive" data-onstyle="success">
                                     </td>
                                     <td>
-                                        <input type="checkbox" {{ $application->approved?"checked":"" }} class="toggle-switch-approve"
-                                               data-toggle="toggle" data-approve-id="{{ $application->id }}" data-on="Approved"
+                                        <input type="checkbox"
+                                               {{ $application->approved?"checked":"" }} class="toggle-switch-approve"
+                                               data-toggle="toggle" data-approve-id="{{ $application->id }}"
+                                               data-on="Approved"
                                                data-off="Not Approved" data-onstyle="success">
                                     </td>
                                     <td>
-                                        <button class="btn btn-danger remove-application col-sm-12"
-                                                data-delete-id="{{ $application->id }}">
-                                            <span class="fa fas fa-trash"></span> Delete
+                                        <a href="{{ url('admin/applications/'.$application->id) }}">
+                                            <button class="btn btn-primary" title="Show">
+                                            <span class="fa fas fa-eye"></span>
+                                            </button>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="{{ url('admin/applications/'.$application->id.'/edit') }}">
+                                            <button class="btn btn-warning" title="Edit">
+                                            <span class="fa fas fa-pencil"></span>
+                                            </button>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-danger remove-application"
+                                                data-delete-id="{{ $application->id }}" title="Delete">
+                                            <span class="fa fas fa-trash"></span>
                                         </button>
                                     </td>
                                 </tr>
