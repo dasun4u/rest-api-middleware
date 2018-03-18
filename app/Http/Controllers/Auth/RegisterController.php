@@ -59,10 +59,14 @@ class RegisterController extends Controller
     {
         event(new RegisterController($user = $this->create($request->all())));
 
+        /* default
         $this->guard()->login($user);
 
         return $this->registered($request, $user)
             ?: redirect($this->redirectPath());
+        */
+        createSessionFlash('Register','SUCCESS','User Register successfully. Please wait until approve the account by Admin');
+        return redirect('login');
     }
 
     /**
@@ -73,7 +77,11 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $data['profile_picture'] = fileUpload($data['avatar'],'/assets/avatar/');
+        if(isset($data['avatar'])) {
+            $data['profile_picture'] = fileUpload($data['avatar'], '/assets/avatar/');
+        } else {
+            $data['profile_picture'] = null;
+        }
 
         return User::create([
             'first_name' => $data['first_name'],

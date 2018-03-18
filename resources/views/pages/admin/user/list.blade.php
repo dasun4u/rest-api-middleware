@@ -5,8 +5,13 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="row">
-                    <div class="col-sm-10 col-sm-offset-1">
+                    <div class="col-sm-6 col-sm-offset-1">
                         <h1>Users</h1>
+                    </div>
+                    <div class="col-sm-4 btn-div-pad">
+                        <a href="{{ url('/admin/users/create') }}">
+                            <button class="btn btn-success pull-right">Create New User</button>
+                        </a>
                     </div>
                 </div>
                 <div class="row">
@@ -15,21 +20,21 @@
                             <thead>
                             <tr class="info">
                                 <th>#</th>
-                                <th>First name</th>
-                                <th>Last name</th>
+                                <th>Name</th>
                                 <th>Username</th>
+                                <th>Email</th>
                                 <th>Mobile</th>
-                                <th>Status</th>
-                                <th>Delete</th>
+                                <th class="text-center">Active</th>
+                                <th class="text-center" colspan="3">Options</th>
                             </tr>
                             </thead>
                             <tbody>
                             @forelse($users as $user)
                                 <tr class="{{ $user->active?"success":"default" }}">
                                     <td>{{ $user->id }}</td>
-                                    <td>{{ $user->first_name }}</td>
-                                    <td>{{ $user->last_name }}</td>
+                                    <td>{{ $user->first_name ." ". $user->last_name }}</td>
                                     <td>{{ $user->username }}</td>
+                                    <td>{{ $user->email }}</td>
                                     <td>{{ $user->mobile }}</td>
                                     <td>
                                         <input type="checkbox" {{ $user->active?"checked":"" }} class="toggle-switch"
@@ -37,15 +42,29 @@
                                                data-off="Inactive" data-onstyle="success">
                                     </td>
                                     <td>
-                                        <button class="btn btn-danger remove-user col-sm-8"
-                                                data-delete-id="{{ $user->id }}">
-                                            <span class="fa fas fa-trash"></span> Delete
+                                        <a href="{{ url('admin/users/'.$user->id) }}">
+                                            <button class="btn btn-primary" title="Show">
+                                                <span class="fa fas fa-eye"></span>
+                                            </button>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="{{ url('admin/users/'.$user->id.'/edit') }}">
+                                            <button class="btn btn-warning" title="Edit">
+                                                <span class="fa fas fa-pencil"></span>
+                                            </button>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-danger remove-user"
+                                                data-delete-id="{{ $user->id }}" title="Delete"><span
+                                                    class="fa fas fa-trash"></span>
                                         </button>
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="text-center">No Users Found</td>
+                                    <td colspan="9" class="text-center">No Users Found</td>
                                 </tr>
                             @endforelse
                             </tbody>

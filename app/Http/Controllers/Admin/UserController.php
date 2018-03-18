@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\UserRequest;
 use App\User;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -26,7 +27,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.admin.user.create');
     }
 
     /**
@@ -35,9 +36,22 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        //
+        $user = new User();
+        $user->first_name = trim($request->input('first_name'));
+        $user->last_name = trim($request->input('last_name'));
+        $user->username = trim($request->input('username'));
+        $user->active = ($request->input('active') == "on") ? 1 : 0;
+        $user->password = bcrypt(trim($request->input('password')));
+        $user->email = trim($request->input('email'));
+        $user->mobile = trim($request->input('mobile'));
+        if ($user->save()) {
+            createSessionFlash('User Create', 'SUCCESS', 'User create successfully');
+        } else {
+            createSessionFlash('User Create', 'FAIL', 'Error in User create');
+        }
+        return redirect('admin/users');
     }
 
     /**
@@ -48,7 +62,8 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::find($id);
+        return view('pages.admin.user.show', ['user' => $user]);
     }
 
     /**
@@ -59,7 +74,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::find($id);
+        return view('pages.admin.user.edit', ['user' => $user]);
     }
 
     /**
@@ -69,9 +85,43 @@ class UserController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserRequest $request, $id)
     {
-        //
+        $user = User::find($id);
+        if ($user != null) {
+            if ($request->input("password") != null) {
+                $validator = Validator::make($request->all(), [
+                    'password' => 'required|min:6|max:50|confirmed',
+                    'password_confirmation' => 'required',
+                ], [
+                    'password.required' => 'Password is required',
+                    'password.min' => 'Password minimum character length is 6',
+                    'password.max' => 'Password max character length is 50',
+                    'password.confirmed' => 'Password confirmation is invalid',
+                    'password_confirmation.required' => 'Password Confirmation is required',
+                ]);
+                if ($validator->fails()) {
+                    return redirect()->back()->withErrors($validator)->withInput();
+                }
+                $user->password = bcrypt(trim($request->input('password')));
+            }
+
+            $user->first_name = trim($request->input('first_name'));
+            $user->last_name = trim($request->input('last_name'));
+            $user->username = trim($request->input('username'));
+            $user->active = ($request->input('active') == "on") ? 1 : 0;
+            $user->email = trim($request->input('email'));
+            $user->mobile = trim($request->input('mobile'));
+            if ($user->save()) {
+                createSessionFlash('User Update', 'SUCCESS', 'User update successfully');
+            } else {
+                createSessionFlash('User Update', 'FAIL', 'Error in User update');
+            }
+        } else {
+            createSessionFlash('User Update', 'FAIL', 'Invalid user');
+        }
+        return redirect('admin/users');
+
     }
 
     /**

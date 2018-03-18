@@ -88,4 +88,30 @@ class LoginController extends Controller
     {
         return 'username';
     }
+
+    protected function sendLoginResponse(Request $request)
+    {
+        $request->session()->regenerate();
+
+        $this->clearLoginAttempts($request);
+
+        if($this->authenticated($request, $this->guard()->user())){
+            return redirect()->intended($this->redirectPath());
+        } else {
+            $this->guard()->logout();
+            createSessionFlash('Login','FAIL','Please wait until approve the account by Admin');
+            return redirect('login');
+        }
+    }
+
+    protected function authenticated(Request $request, $user)
+    {
+        if($user->active==1){
+            // active user
+            return true;
+        } else{
+            // inactive user
+            return false;
+        }
+    }
 }
