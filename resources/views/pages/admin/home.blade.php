@@ -20,8 +20,7 @@
                                             <thead>
                                             <tr class="success">
                                                 <th>#</th>
-                                                <th>First name</th>
-                                                <th>Last name</th>
+                                                <th>Name</th>
                                                 <th>Username</th>
                                                 <th>Mobile</th>
                                             </tr>
@@ -31,8 +30,7 @@
                                                 @if($loop->index<5)
                                                     <tr>
                                                         <td>{{ $user->id }}</td>
-                                                        <td>{{ $user->first_name }}</td>
-                                                        <td>{{ $user->last_name }}</td>
+                                                        <td>{{ $user->first_name ." ". $user->last_name }}</td>
                                                         <td>{{ $user->username }}</td>
                                                         <td>{{ $user->mobile }}</td>
                                                     </tr>

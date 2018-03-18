@@ -40,17 +40,15 @@
             <div class="row min-pad">
                 <div class="col-sm-6 box-wrap">
                     {{--Description--}}
-                    <div class="col-sm-6 box-wrap">
-                        <div class="form-group">
-                            <label for="description">Description</label>
-                            <textarea id="description" name="description" class="form-control"
-                                      maxlength="1000">{{ $group->description }}</textarea>
-                            @if($errors->has('description'))
-                                <span class="help-block">
-                            <strong>{{ $errors->first('description') }}</strong>
-                        </span>
-                            @endif
-                        </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea id="description" name="description" class="form-control"
+                                  maxlength="1000">{{ $group->description }}</textarea>
+                        @if($errors->has('description'))
+                            <span class="help-block">
+                        <strong>{{ $errors->first('description') }}</strong>
+                    </span>
+                        @endif
                     </div>
                 </div>
             </div>

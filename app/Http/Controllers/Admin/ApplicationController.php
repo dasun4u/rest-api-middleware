@@ -52,13 +52,9 @@ class ApplicationController extends Controller
         $application->sandbox_key = $request->input('sandbox_key');
         $application->sandbox_secret = $request->input('sandbox_secret');
         if($application->save()){
-            session()->flash('action','Application Create');
-            session()->flash('status_success','SUCCESS');
-            session()->flash('alert_message','Application create successfully');
+            createSessionFlash('Application Create','SUCCESS','Application create successfully');
         } else {
-            session()->flash('action','Application Create');
-            session()->flash('status_error','FAIL');
-            session()->flash('alert_message','Error in Application create');
+            createSessionFlash('Application Create','FAIL','Error in Application create');
         }
         return redirect('admin/applications');
     }
@@ -106,18 +102,12 @@ class ApplicationController extends Controller
             $application->approved = ($request->input('approved') == "on") ? 1 : 0;
             $application->approved_by = ($request->input('approved') == "on") ? Auth::user()->id : 0;
             if ($application->save()) {
-                session()->flash('action', 'Application Update');
-                session()->flash('status_success', 'SUCCESS');
-                session()->flash('alert_message', 'Application update successfully');
+                createSessionFlash('Application Update','SUCCESS','Application update successfully');
             } else {
-                session()->flash('action', 'Application Update');
-                session()->flash('status_error', 'FAIL');
-                session()->flash('alert_message', 'Error in Application update');
+                createSessionFlash('Application Update','FAIL','Error in Application update');
             }
         } else {
-            session()->flash('action', 'Application Update');
-            session()->flash('status_error', 'FAIL');
-            session()->flash('alert_message', 'Invalid Application');
+            createSessionFlash('Application Update','FAIL','Invalid Application');
         }
         return redirect('admin/applications');
     }

@@ -71,7 +71,7 @@
         $("#modal_display_text").html('<h4 class="'+color+'">' + msg + '</h4>');
         $("#modal_display_icon").html('<i class="fa ' + icon + ' ' + color + ' text-center" class="close" data-dismiss="modal" aria-label="Close" aria-hidden="true"></i>');
         $('#alert_modal').modal('show');
-        setTimeout(function () { $('#alert_modal').modal('hide')}, 3000);
+        setTimeout(function () { $('#alert_modal').modal('hide')}, 10000);
     }
 </script>
 <!-- End Alert Modal -->

@@ -54,12 +54,23 @@ function applicationKeyDecode($key)
 
 function sessionClear($sessionKeys)
 {
-    if(is_array($sessionKeys)){
-        foreach ($sessionKeys as $sessionKey){
+    if (is_array($sessionKeys)) {
+        foreach ($sessionKeys as $sessionKey) {
             session()->forget($sessionKey);
         }
-    } else if(is_string($sessionKeys)) {
+    } else if (is_string($sessionKeys)) {
         session()->forget($sessionKeys);
     }
     return true;
+}
+
+function createSessionFlash($action = 'Title', $status = 'SUCCESS', $message = 'Alert Message')
+{
+    session()->flash('action', $action);
+    if($status=='SUCCESS'){
+        session()->flash('status_success', $status);
+    } else {
+        session()->flash('status_error', 'FAIL');
+    }
+    session()->flash('alert_message', $message);
 }

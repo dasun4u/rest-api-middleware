@@ -43,13 +43,9 @@ class ServiceGroupController extends Controller
         $group->description = $request->input('description');
         $group->active = ($request->input('active')=="on")?1:0;
         if($group->save()){
-            session()->flash('action','Service Group Create');
-            session()->flash('status_success','SUCCESS');
-            session()->flash('alert_message','Service Group create successfully');
+            createSessionFlash('Service Group Create','SUCCESS','Service Group create successfully');
         } else {
-            session()->flash('action','Service Group Create');
-            session()->flash('status_error','FAIL');
-            session()->flash('alert_message','Error in Service Group create');
+            createSessionFlash('Service Group Create','FAIL','Error in Service Group create');
         }
         return redirect('admin/serviceGroups');
     }
@@ -93,18 +89,12 @@ class ServiceGroupController extends Controller
             $group->description = $request->input('description');
             $group->active = ($request->input('active') == "on") ? 1 : 0;
             if ($group->save()) {
-                session()->flash('action', 'Service Group Update');
-                session()->flash('status_success', 'SUCCESS');
-                session()->flash('alert_message', 'Service Group update successfully');
+                createSessionFlash('Service Group Update','SUCCESS','Service Group update successfully');
             } else {
-                session()->flash('action', 'Service Group Update');
-                session()->flash('status_error', 'FAIL');
-                session()->flash('alert_message', 'Error in Service Group update');
+                createSessionFlash('Service Group Update','FAIL','Error in Service Group update');
             }
         } else {
-            session()->flash('action', 'Service Group Update');
-            session()->flash('status_error', 'FAIL');
-            session()->flash('alert_message', 'Invalid Service Group');
+            createSessionFlash('Service Group Update','FAIL','Invalid Service Group');
         }
         return redirect('admin/serviceGroups');
     }
