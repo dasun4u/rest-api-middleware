@@ -16,6 +16,7 @@ class ServiceGroupsTableSeeder extends Seeder
             [
                 'name' => 'API Group 1',
                 'description' => 'Testing API Group 1',
+                'context' => 'group1',
                 'active' => 1,
                 'created_at' => \Carbon\Carbon::now(),
                 'updated_at' => \Carbon\Carbon::now(),
@@ -23,6 +24,7 @@ class ServiceGroupsTableSeeder extends Seeder
             [
                 'name' => 'API Group 2',
                 'description' => 'Testing API Group 2',
+                'context' => 'group2',
                 'active' => 1,
                 'created_at' => \Carbon\Carbon::now(),
                 'updated_at' => \Carbon\Carbon::now(),

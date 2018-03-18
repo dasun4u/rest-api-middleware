@@ -41,6 +41,7 @@ class ServiceGroupController extends Controller
         $group = new ServiceGroup();
         $group->name = $request->input('name');
         $group->description = $request->input('description');
+        $group->context = $request->input('context');
         $group->active = ($request->input('active')=="on")?1:0;
         if($group->save()){
             createSessionFlash('Service Group Create','SUCCESS','Service Group create successfully');
@@ -87,6 +88,7 @@ class ServiceGroupController extends Controller
         if($group!=null) {
             $group->name = $request->input('name');
             $group->description = $request->input('description');
+            $group->context = $request->input('context');
             $group->active = ($request->input('active') == "on") ? 1 : 0;
             if ($group->save()) {
                 createSessionFlash('Service Group Update','SUCCESS','Service Group update successfully');

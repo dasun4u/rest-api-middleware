@@ -17,6 +17,7 @@ class CreateServiceGroupsTable extends Migration
             $table->increments('id');
             $table->string('name',100);
             $table->string('description',1000);
+            $table->string('context',200);
             $table->tinyInteger('active')->default(0);
             $table->timestamps();
         });

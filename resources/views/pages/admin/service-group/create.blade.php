@@ -19,8 +19,6 @@
                         @endif
                     </div>
                 </div>
-            </div>
-            <div class="row min-pad">
                 {{--Description--}}
                 <div class="col-sm-6 box-wrap">
                     <div class="form-group">
@@ -36,10 +34,25 @@
                 </div>
             </div>
             <div class="row min-pad">
+                {{--Context--}}
+                <div class="col-sm-6 box-wrap">
+                    <div class="form-group">
+                        <label for="context">Group Context<span class="red-text">*</span></label>
+                        <br><label>(ex:- http://{your domain}/api/{group context}/{service context}/XXXXXXXXXX)</label>
+                        <input type="text" id="context" name="context" class="form-control" maxlength="200"
+                               value="{{ old('context') }}">
+                        @if ($errors->has('context'))
+                            <span class="help-block">
+                            <strong>{{ $errors->first('context') }}</strong>
+                        </span>
+                        @endif
+                    </div>
+                </div>
                 {{--Active--}}
                 <div class="col-sm-6 box-wrap">
                     <div class="form-group col-sm-6">
                         <label for="active" class="col-sm-12">Active</label>
+                        <br><label class="col-sm-12">(All the Service's status under this group)</label>
                         <input type="checkbox" id="active" name="active"
                                {{ old('active')=='on'?"checked":"" }} class="toggle-switch-active col-sm-12"
                                data-toggle="toggle" data-on="Active" data-off="Inactive" data-onstyle="success">

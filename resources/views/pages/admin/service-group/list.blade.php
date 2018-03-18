@@ -21,7 +21,7 @@
                             <tr class="info">
                                 <th>#</th>
                                 <th>Name</th>
-                                <th>Description</th>
+                                <th>Context</th>
                                 <th>Created Time</th>
                                 <th class="text-center">Active</th>
                                 <th class="text-center" colspan="3">Options</th>
@@ -32,7 +32,7 @@
                                 <tr class="{{ $group->active?"success":"default" }}">
                                     <td>{{ $group->id }}</td>
                                     <td>{{ $group->name }}</td>
-                                    <td>{{ str_limit($group->description,50) }}</td>
+                                    <td>{{ $group->context }}</td>
                                     <td>{{ \Carbon\Carbon::parse($group->created_at)->toDateTimeString() }}</td>
                                     <td>
                                         <input type="checkbox"
@@ -74,6 +74,7 @@
                 </div>
             </div>
         </div>
+    </div>
 
         <script>
             // Remove Group Confirmation
@@ -122,13 +123,14 @@
                     url: '{!! url('admin/serviceGroups/changeStatus/') !!}/' + id + '/' + status,
                     success: function (data) {
                         if (data["status"] == "SUCCESS") {
+                            var change_row = $('[data-status-id="' + id + '"]').closest('tr');
                             if (status == 1) {
-                                $('[data-status-id="' + id + '"]').closest('tr').removeClass('default');
-                                $('[data-status-id="' + id + '"]').closest('tr').addClass('success');
+                                change_row.removeClass('default');
+                                change_row.addClass('success');
                                 showAlert("SUCCESS", "Active Application Status");
                             } else {
-                                $('[data-status-id="' + id + '"]').closest('tr').removeClass('success');
-                                $('[data-status-id="' + id + '"]').closest('tr').addClass('default');
+                                change_row.removeClass('success');
+                                change_row.addClass('default');
                                 showAlert("SUCCESS", "Inactive Application Status");
                             }
                         } else {

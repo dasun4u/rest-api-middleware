@@ -74,7 +74,7 @@
                 </div>
             </div>
         </div>
-
+    </div>
         <script>
             // Remove User Confirmation
             $(document.body).on("click", ".remove-user", function () {
@@ -122,13 +122,14 @@
                     url: '{!! url('admin/users/changeStatus/') !!}/' + id + '/' + status,
                     success: function (data) {
                         if (data["status"] == "SUCCESS") {
+                            var change_row = $('[data-status-id="' + id + '"]').closest('tr');
                             if (status == 1) {
-                                $('[data-status-id="' + id + '"]').closest('tr').removeClass('default');
-                                $('[data-status-id="' + id + '"]').closest('tr').addClass('success');
+                                change_row.removeClass('default');
+                                change_row.addClass('success');
                                 showAlert("SUCCESS", "Active User Status");
                             } else {
-                                $('[data-status-id="' + id + '"]').closest('tr').removeClass('success');
-                                $('[data-status-id="' + id + '"]').closest('tr').addClass('default');
+                                change_row.removeClass('success');
+                                change_row.addClass('default');
                                 showAlert("SUCCESS", "Inactive User Status");
                             }
                         } else {

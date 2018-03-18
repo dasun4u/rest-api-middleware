@@ -85,7 +85,7 @@
         <div class="row form-btn-pad-left form-btn-pad-bottom">
             <div class="col-sm-12">
                 <div class="form-group">
-                    <a href="{{ url()->previous() }}"><button type="button" class="btn btn-success">BACK</button></a>
+                    <a href="{{ url('admin/applications') }}"><button type="button" class="btn btn-success">BACK</button></a>
                 </div>
             </div>
         </div>

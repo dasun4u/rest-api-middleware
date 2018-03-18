@@ -20,24 +20,6 @@
                         @endif
                     </div>
                 </div>
-            </div>
-            <div class="row min-pad">
-                <div class="col-sm-6 box-wrap">
-                    {{--Active--}}
-                    <div class="form-group col-sm-6">
-                        <label for="active" class="col-sm-12">Active</label>
-                        <input type="checkbox" id="active" name="active"
-                               {{ $group->active==1?"checked":"" }} class="toggle-switch-active col-sm-12"
-                               data-toggle="toggle" data-on="Active" data-off="Inactive" data-onstyle="success">
-                        @if($errors->has('active'))
-                            <span class="help-block">
-                            <strong>{{ $errors->first('active') }}</strong>
-                        </span>
-                        @endif
-                    </div>
-                </div>
-            </div>
-            <div class="row min-pad">
                 <div class="col-sm-6 box-wrap">
                     {{--Description--}}
                     <div class="form-group">
@@ -51,6 +33,39 @@
                         @endif
                     </div>
                 </div>
+            </div>
+            <div class="row min-pad">
+                <div class="col-sm-6 box-wrap">
+                    {{--Context--}}
+                    <div class="form-group">
+                        <label for="context">Group Context<span class="red-text">*</span></label>
+                        <br><label>(ex:- http://{your domain}/api/{group context}/{service context}/XXXXXXXXXX)</label>
+                        <input type="text" id="context" name="context" class="form-control" maxlength="200"
+                               value="{{ $group->context }}">
+                        @if ($errors->has('context'))
+                            <span class="help-block">
+                            <strong>{{ $errors->first('context') }}</strong>
+                        </span>
+                        @endif
+                    </div>
+                </div>
+                <div class="col-sm-6 box-wrap">
+                    {{--Active--}}
+                    <label for="active" class="col-sm-12">Active</label>
+                    <br><label class="col-sm-12">(All the Service's status under this group)</label>
+                    <input type="checkbox" id="active" name="active"
+                           {{ $group->active==1?"checked":"" }} class="toggle-switch-active col-sm-12"
+                           data-toggle="toggle" data-on="Active" data-off="Inactive" data-onstyle="success">
+                    @if($errors->has('active'))
+                        <span class="help-block">
+                        <strong>{{ $errors->first('active') }}</strong>
+                    </span>
+                    @endif
+
+                </div>
+            </div>
+            <div class="row min-pad">
+
             </div>
             <div class="row form-btn-pad-left form-btn-pad-bottom">
                 <div class="col-sm-12">

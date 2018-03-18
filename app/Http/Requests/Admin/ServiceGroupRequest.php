@@ -29,12 +29,14 @@ class ServiceGroupRequest extends FormRequest
             return [
                 'name'=>'required|max:100',
                 'description'=>'max:1000',
+                'context'=>'required|max:200|alpha_dash|unique:service_groups,context',
                 'active'=>'in:on',
             ];
         } else if($method=='PUT') {
             return [
                 'name'=>'required|max:100',
                 'description'=>'max:1000',
+                'context'=>'required|max:200|alpha_dash|unique:service_groups,context,'.$this->service_group->id,
                 'active'=>'in:on',
             ];
         } else {
@@ -55,6 +57,10 @@ class ServiceGroupRequest extends FormRequest
                 'name.required'=>'Name is required',
                 'name.max'=>'Name max character length is 100',
                 'description.max'=>'Description max character length is 1000',
+                'context.required'=>'Context is required',
+                'context.max'=>'Context max character length is 200',
+                'context.alpha_dash'=>'Context invalid.(allow only _ and -)',
+                'context.unique'=>'Context already used. Try another',
                 'active.in'=>'Invalid state',
             ];
         } else if($method=='PUT') {
@@ -62,6 +68,10 @@ class ServiceGroupRequest extends FormRequest
                 'name.required'=>'Name is required',
                 'name.max'=>'Name max character length is 100',
                 'description.max'=>'Description max character length is 1000',
+                'context.required'=>'Context is required',
+                'context.max'=>'Context max character length is 200',
+                'context.alpha_dash'=>'Context invalid.(allow only _ and -)',
+                'context.unique'=>'Context already used. Try another',
                 'active.in'=>'Invalid state',
             ];
         } else {

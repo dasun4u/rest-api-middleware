@@ -17,6 +17,10 @@
                 {{Request::segment(2)=='serviceGroups'?$active='active':$active=''}} class="{{$active}}">
                 <a href="{{url('/admin/serviceGroups')}}"><i class="fa fas fa-object-group" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;API Groups</a>
             </li>
+            <li role="presentation"
+                {{Request::segment(2)=='services'?$active='active':$active=''}} class="{{$active}}">
+                <a href="{{url('/admin/services')}}"><i class="fa fas fa-cogs" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Services</a>
+            </li>
         </ul>
     </div>
 </div>
