@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Service;
 use App\ServiceGroup;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -126,5 +127,15 @@ class ServiceGroupController extends Controller
             }
         }
         return response()->json(["id" => $id, "status" => "FAIL", "message" => "Error in Change Status"]);
+    }
+
+    public function getServicesByGroupID($id)
+    {
+        if($id==0){
+            $services = Service::select('id','name')->get()->toArray();
+        } else {
+            $services = Service::select('id','name')->where('service_group_id',$id)->get()->toArray();
+        }
+        return response()->json(["id" => $id, "status" => "SUCCESS", "data" => $services]);
     }
 }

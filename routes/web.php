@@ -27,7 +27,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','admin'], 'namespace'
     Route::get('applications/generateKeys/{scope}', 'ApplicationController@generateKeys');
     Route::resource('serviceGroups', 'ServiceGroupController');
     Route::get('serviceGroups/changeStatus/{id}/{status}', 'ServiceGroupController@changeStatus');
+    Route::get('serviceGroups/getServicesByGroupID/{id}', 'ServiceGroupController@getServicesByGroupID');
     Route::resource('services', 'ServiceController');
     Route::get('services/changeStatus/{id}/{status}', 'ServiceController@changeStatus');
     Route::get('services/changeApprove/{id}/{status}', 'ServiceController@changeApprove');
+    Route::resource('subscriptions', 'SubscriptionController');
+    Route::get('subscriptions/changeApprove/{id}/{status}', 'SubscriptionController@changeApprove');
 });

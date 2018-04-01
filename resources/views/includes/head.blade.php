@@ -23,17 +23,17 @@
 <meta name="msapplication-TileImage" content="{!! asset('favicons/ms-icon-144x144.png') !!}">
 <meta name="theme-color" content="#ffffff">
 
-<link href="{!! asset('css/font-awesome.css') !!}" rel="stylesheet">
-
 <script src="{!! asset('js/jquery-3.1.1.min.js') !!}"></script>
 <script src="{!! asset('js/Moment.js') !!}"></script>
 <script src="{!! asset('js/bootstrap.min.js') !!}"></script>
 <script src="{!! asset('library/bootstrap-toggle-master/js/bootstrap-toggle.js') !!}"></script>
+<script src="{!! asset('library/select2/select2.min.js') !!}"></script>
 <script src="{!! asset('js/custom.js') !!}"></script>
 
-<link href="{!! url('https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800') !!}" rel="stylesheet">
+<link href="{!! asset('css/font-awesome.css') !!}" rel="stylesheet">
 <link href="{!! asset('css/bootstrap.min.css') !!}" rel="stylesheet">
 <link href="{!! asset('library/bootstrap-toggle-master/css/bootstrap-toggle.css') !!}" rel="stylesheet">
+<link href="{!! asset('library/select2/select2.min.css') !!}" rel="stylesheet">
 <link href="{!! asset('style.css') !!}" rel="stylesheet">
 
 <!-- Alert Modal -->

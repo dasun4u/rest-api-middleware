@@ -18,8 +18,9 @@ class CreateSubscriptionsTable extends Migration
             $table->integer('application_id');
             $table->integer('service_id');
             $table->tinyInteger('approved')->default(0);
-            $table->integer('approved_by');
+            $table->integer('approved_by')->nullable()->default(null);
             $table->timestamp('approved_at');
+            $table->integer('subscribed_by');
             $table->timestamps();
             $table->softDeletes();
         });

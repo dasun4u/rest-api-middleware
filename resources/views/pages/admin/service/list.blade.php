@@ -169,7 +169,7 @@
             function changeApprove(id, status) {
                 $.ajax({
                     type: 'get',
-                    url: '{!! url('admin/services/changeApprove/') !!}/' + id + '/' + status,
+                    url: '{!! url('admin/services/changeApprove') !!}/' + id + '/' + status,
                     success: function (data) {
                         if (data["status"] == "SUCCESS") {
                             if (status == 1) {

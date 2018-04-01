@@ -7,7 +7,7 @@
                          style="margin: 5px auto 5px;display: block">
                 </div>
                 <div class="col-sm-9">
-                    <h3 class="logo-text">DAPI Reset API Middleware</h3>
+                    <h3 class="logo-text">DAPI REST API Middleware</h3>
                 </div>
             </div>
             <div class="col-sm-8">
