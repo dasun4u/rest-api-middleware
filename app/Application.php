@@ -24,4 +24,9 @@ class Application extends Model
     {
         return $this->belongsTo('App\User','created_by','id');
     }
+
+    public function subscribes()
+    {
+        return $this->hasMany('App\Subscription', 'application_id', 'id');
+    }
 }
