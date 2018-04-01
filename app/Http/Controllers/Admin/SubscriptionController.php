@@ -52,7 +52,7 @@ class SubscriptionController extends Controller
         $service_id = $inputs["service"];
         $approved = ($request->input('approved') == "on") ? 1 : 0;
         $approved_by = ($request->input('approved') == "on") ? Auth::user()->id : null;
-        $approved_at = ($request->input('approved') == "on") ? Carbon::parse()->toDateTimeString() : null;
+        $approved_at = ($request->input('approved') == "on") ? Carbon::now()->toDateTimeString() : null;
         $subscribed_by = Auth::user()->id;
 
         if ($service_id == 0) {
@@ -79,6 +79,8 @@ class SubscriptionController extends Controller
                     $subscription_data["approved_by"] = $approved_by;
                     $subscription_data["approved_at"] = $approved_at;
                     $subscription_data["subscribed_by"] = $subscribed_by;
+                    $subscription_data["created_at"] = Carbon::now()->toDateTimeString();
+                    $subscription_data["updated_at"] = Carbon::now()->toDateTimeString();
                     array_push($subscription_array,$subscription_data);
                 }
             }

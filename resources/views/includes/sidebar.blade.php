@@ -26,6 +26,10 @@
                     {{Request::segment(2)=='subscriptions'?$active='active':$active=''}} class="{{$active}}">
                     <a href="{{url('/admin/subscriptions')}}"><i class="fa fas fa-handshake-o" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Subscriptions</a>
                 </li>
+                <li role="presentation"
+                    {{Request::segment(2)=='messages'?$active='active':$active=''}} class="{{$active}}">
+                    <a href="{{url('/admin/messages')}}"><i class="fa fas fa-envelope" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Messages</a>
+                </li>
             @endif
         </ul>
     </div>

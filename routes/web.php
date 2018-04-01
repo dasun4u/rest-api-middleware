@@ -33,4 +33,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','admin'], 'namespace'
     Route::get('services/changeApprove/{id}/{status}', 'ServiceController@changeApprove');
     Route::resource('subscriptions', 'SubscriptionController');
     Route::get('subscriptions/changeApprove/{id}/{status}', 'SubscriptionController@changeApprove');
+    Route::resource('messages', 'MessageController');
+    Route::get('messages/sendMessages/showList', 'MessageController@sendMessages');
+    Route::get('messages/sendMessages/{id}', 'MessageController@sendMessageShow');
 });

@@ -33,7 +33,7 @@
                                 <option value="0">-- All --</option>
                             @endif
                             @forelse($service_groups as $service_group)
-                                <option value="{{ $service_group->id }}" {{ old('$service_group')==$service_group->id?"selected":"" }}>{{ $service_group->name }}</option>
+                                <option value="{{ $service_group->id }}" {{ old('service_group')==$service_group->id?"selected":"" }}>{{ $service_group->name }}</option>
                             @empty
                                 <option value="">--No Service Groups--</option>
                             @endforelse
