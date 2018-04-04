@@ -67,10 +67,24 @@ function sessionClear($sessionKeys)
 function createSessionFlash($action = 'Title', $status = 'SUCCESS', $message = 'Alert Message')
 {
     session()->flash('action', $action);
-    if($status=='SUCCESS'){
+    if ($status == 'SUCCESS') {
         session()->flash('status_success', $status);
     } else {
         session()->flash('status_error', 'FAIL');
     }
     session()->flash('alert_message', $message);
+}
+
+function makeAPIResponse($status = true, $message = "Done", $data = null, $status_code = 200, $key = "data")
+{
+    $response = [
+        "success" => $status,
+        "message" => $message,
+    ];
+
+    if ($data != null || is_array($data)) {
+        $response[$key] = $data;
+    }
+
+    return response()->json($response, $status_code);
 }

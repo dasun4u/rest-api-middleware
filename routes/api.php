@@ -16,3 +16,9 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+Route::group(['middleware' => 'api_service'], function () {
+    Route::post('/token_generate', 'AuthController@tokenGenerate');
+    Route::any('{group_context}/{service_context}/{any}', 'ProxyController@proxyCall')->where('any', '.*');
+});
