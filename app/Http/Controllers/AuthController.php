@@ -20,6 +20,8 @@ class AuthController extends Controller
     public function tokenGenerate(Request $request)
     {
         try {
+            $basic_key = $request->header("authorization");
+            $request->request->add(['basic_key'=>substr($basic_key, 6)]);
             $validator = Validator::make($request->all(), [
                 'basic_key' => ['required', new BasicKey()],
                 'scope' => 'required|in:production,sandbox'
@@ -67,8 +69,8 @@ class AuthController extends Controller
 
             // Set Token payload
             $payload = $this->jwt->factory()
-                ->setTTL(($application->token_validity / 3600))
-                ->customClaims(['sub' => $application->id, "data" => ['application' => $application->name, 'scope' => $scope]])
+                ->setTTL(($application->token_validity / 60))
+                ->customClaims(['sub' => $application->id, "data" => ['app_id' => $application->id, 'app_name' => $application->name, 'scope' => $scope]])
                 ->make();
 
             // Token generate
