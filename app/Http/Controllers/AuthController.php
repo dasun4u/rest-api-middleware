@@ -54,7 +54,7 @@ class AuthController extends Controller
 
             // Check application exist
             if($application==null){
-                return makeAPIResponse(false, "Not matching application. Please check base key.", null, 422);
+                return makeAPIResponse(false, "Not matching ".$scope." application. Please check basic key.", null, 422);
             }
 
             // Check whether application is active or not
