@@ -3,9 +3,9 @@
 namespace App\Http\Middleware;
 
 use App\Application;
+use App\CustomLogTrait;
 use App\User;
 use Closure;
-use App\CustomLogTrait;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
@@ -38,12 +38,12 @@ class APIServiceMiddleware
             $payload = $this->jwt->getPayload();
             $app_id = $payload->get('data')->app_id;
             $token_scope = $payload->get('data')->scope;
-            $application = Application::where('id',$app_id)->first();
-            if($application!=null){
+            $application = Application::where('id', $app_id)->first();
+            if ($application != null) {
                 // Has Relevant APP
-                if($application->approved){
+                if ($application->approved) {
                     // Application approved
-                    if($application->active){
+                    if ($application->active) {
                         // Application active
                         $request->application = $application;
                         $request->token_scope = $token_scope;
@@ -70,6 +70,11 @@ class APIServiceMiddleware
         } catch (\Exception $e) {
             return makeAPIResponse(false, "Internal service error", null, 500);
         }
-        return $next($request);
+
+        $response = $next($request);
+
+        $this->allServiceLog($request, $response);
+
+        return $response;
     }
 }

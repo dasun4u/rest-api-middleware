@@ -5,25 +5,18 @@ namespace App\Http\Controllers;
 use App\Service;
 use App\ServiceGroup;
 use App\Subscription;
-use Illuminate\Http\Request;
-use Proxy\Proxy;
 use GuzzleHttp\Client;
-use Proxy\Adapter\Guzzle\GuzzleAdapter;
-use Proxy\Filter\RemoveEncodingFilter;
-use Zend\Diactoros\ServerRequestFactory;
-use Zend\Diactoros\Uri;
+use Illuminate\Http\Request;
 
 class ProxyController extends Controller
 {
-    public function proxyCall(Request $request, $group_context,$service_context,$any="")
+    public function proxyCall(Request $request, $group_context, $service_context, $any = "")
     {
-        //dd($group_context,$service_context,$any,$request->input(),$request->application);
-
         // SERVICE GROUP CHECK
-        $service_group = ServiceGroup::where("context",$group_context)->first();
-        if($service_group!=null){
+        $service_group = ServiceGroup::where("context", $group_context)->first();
+        if ($service_group != null) {
             // Valid Service group
-            if($service_group->active){
+            if ($service_group->active) {
                 // Active Service group
             } else {
                 // Inactive service group
@@ -35,14 +28,14 @@ class ProxyController extends Controller
         }
 
         // SERVICE CHECK
-        $service = Service::where("context",$service_context)->first();
-        if($service!=null){
+        $service = Service::where("context", $service_context)->first();
+        if ($service != null) {
             // Valid Service
-            if($service->approved) {
+            if ($service->approved) {
                 // Service approved
                 if ($service->active) {
                     // Active Service
-                    if ($service->method==$request->method()) {
+                    if ($service->method == $request->method()) {
                         // Valid method
                     } else {
                         // Invalid method
@@ -63,12 +56,12 @@ class ProxyController extends Controller
 
         // SUBSCRIPTION CHECK
         $subscription = Subscription::where([
-            "application_id"=>$request->application->id,
-            "service_id"=>$service->id,
-            ])->first();
-        if($subscription!=null){
+            "application_id" => $request->application->id,
+            "service_id" => $service->id,
+        ])->first();
+        if ($subscription != null) {
             // Valid Subscription
-            if($subscription->approved) {
+            if ($subscription->approved) {
                 // Subscription approved
             } else {
                 // Subscription not approved
@@ -80,47 +73,40 @@ class ProxyController extends Controller
         }
 
         // SCOPE CHECK
-        if(strtoupper($request->token_scope)=="PRODUCTION"){
+        if (strtoupper($request->token_scope) == "PRODUCTION") {
             $forward_url = $service->production_uri;
         } else {
             $forward_url = $service->sandbox_uri;
         }
 
+        // SET METHOD
+        $method = $request->getMethod();
+        // SET URL
+        $rest_of_path = ($any != "") ? ("/" . $any) : "";
+        $url = $forward_url . $rest_of_path;
+        // SET DATA
+        $body = $request->all();
 
-        // Create a guzzle client
-        $guzzle = new Client(['verify' => false, 'http_errors' => false]);
+        $response = $this->guzzleCall($method, $url, $body, $request->header());
+        return $response;
 
-        // Create the proxy instance
-        $proxy = new Proxy(new GuzzleAdapter($guzzle));
-        $request = ServerRequestFactory::fromGlobals();
+    }
 
-        // Create new URI
-        $new_uri = new Uri($forward_url);
-        $old_query = $request->getUri()->getQuery();
-        $rest_of_path = $any!=""?"/".$any:"";
-        $new_uri = $new_uri->withPath($rest_of_path)->withQuery($old_query);
-        $request = $request->withUri($new_uri);
+    private function guzzleCall($method, $url, $body, $headers)
+    {
+        // Filter headers
+        $headers = array_except($headers, ['host', 'authorization']);
 
-        // Add a response filter that removes the encoding headers.
-        $proxy->filter(new RemoveEncodingFilter());
+        // Guzzle object
+        $client = new Client(['verify' => false, 'http_errors' => false]);
 
-        // Forward the request and get the response.
-        $response = $proxy->forward($request)->filter(function ($request, $response, $next) {
-            // Manipulate the request object.
-            $request = $request->withHeader('Authorization', '');
-            // Call the next item in the middleware.
-            $response = $next($request, $response);
+        $request_body = [
+            'headers' => $headers,
+            'json' => $body,
+        ];
 
-            // Manipulate the response object.
-            //$response = $response->withHeader('X-Proxy-Foo', 'Bar');
-
-            return $response;
-        })->to($forward_url);
-        return response($response->getBody(), $response->getStatusCode())->withHeaders($response->getHeaders());
-
-        // Output response to the browser.
-        //(new \Zend\Diactoros\Response\SapiEmitter)->emit($response);
-
+        $response = $client->request($method, $url, $request_body);
+        return response($response->getBody()->getContents(), $response->getStatusCode())->withHeaders($response->getHeaders());
     }
 
 }
