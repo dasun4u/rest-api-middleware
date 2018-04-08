@@ -89,3 +89,22 @@ function makeAPIResponse($status = true, $message = "Done", $data = null, $statu
 
     return response()->json($response, $status_code);
 }
+
+function listAllFolders($dir) {
+    $ffs = scandir($dir);
+
+    $json = array();
+    $newjson = array();
+
+    foreach ($ffs as $ff) {
+        if ($ff != '.' && $ff != '..')  {
+            if (is_readable($dir . '/' . $ff))  {
+                if (is_dir($dir . '/' . $ff))  {
+                    $json[$ff] = listAllFolders($dir . '/' . $ff);
+                }
+            }
+        }
+    }
+
+    return $json;
+}

@@ -33,6 +33,10 @@
                     {{Request::segment(2)=='messages'?$active='active':$active=''}} class="{{$active}}">
                     <a href="{{url('/admin/messages')}}"><i class="fa fas fa-envelope" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Messages {!! ($unread_message_count>0)?'<span class="badge">'.$unread_message_count.'</span>':'' !!}</a>
                 </li>
+                <li role="presentation"
+                    {{Request::segment(2)=='logs'?$active='active':$active=''}} class="{{$active}}">
+                    <a href="{{url('/admin/logs')}}"><i class="fa fas fa-list" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Logs</a>
+                </li>
             @else
                 <li role="presentation"
                     {{Request::segment(2)=='home'?$active='active':$active=''}} class="{{$active}}">

@@ -36,6 +36,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','admin'], 'namespace'
     Route::resource('messages', 'MessageController');
     Route::get('messages/sendMessages/showList', 'MessageController@sendMessages');
     Route::get('messages/sendMessages/{id}', 'MessageController@sendMessageShow');
+    Route::get('logs', 'LogController@index');
+    Route::get('logs/application/{id}', 'LogController@applicationLog');
+    Route::get('logs/logFileDownload', 'LogController@logFileDownload');
+    Route::delete('logs/deleteDailyLogsByApplicationId/{id}', 'LogController@deleteDailyLogsByApplicationId');
+    Route::delete('logs/deleteLogFileByName', 'LogController@deleteLogFileByName');
 });
 
 Route::group(['prefix' => 'developer', 'middleware' => ['auth','developer'], 'namespace'=>'Developer'], function () {
