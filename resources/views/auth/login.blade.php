@@ -27,12 +27,6 @@
                                     </span>
                         @endif
                         <br>
-                        <div class="checkbox">
-                            <label class="rememberme_check">
-                                <input type="checkbox" value="">
-                                <span>&nbsp;Remember me</span>
-                            </label>
-                        </div>
                     </div>
 
                     <div class="col-sm-12 login-btn-pad">

@@ -1,0 +1,105 @@
+@extends('layouts.sidebar')
+
+@section('content')
+    <div class="col-sm-10">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-10 col-sm-offset-1">
+                        <h1>Dashboard</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="col-sm-10 col-sm-offset-1">
+                            <div class="panel panel-info">
+                                <div class="panel-heading">Services to Approve</div>
+                                <div class="panel-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                            <tr class="success">
+                                                <th>#</th>
+                                                <th>Name</th>
+                                                <th>Context</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @forelse($services as $service)
+                                                @if($loop->index<5)
+                                                    <tr>
+                                                        <td>{{ $service->id }}</td>
+                                                        <td>{{ $service->name }}</td>
+                                                        <td>{{ $service->context }}</td>
+                                                    </tr>
+                                                @else
+                                                    <tr>
+                                                        <td colspan="5">
+                                                            <a class="btn btn-primary pull-right"
+                                                               href="{{ url('developer/services') }}">View More</a>
+                                                        </td>
+                                                    </tr>
+                                                    @break
+                                                @endif
+                                            @empty
+                                                <tr>
+                                                    <td colspan="5" class="text-center">No Services to Approve
+                                                    </td>
+                                                </tr>
+                                            @endforelse
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="col-sm-10 col-sm-offset-1">
+                            <div class="panel panel-info">
+                                <div class="panel-heading">Subscriptions to Approve</div>
+                                <div class="panel-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                            <tr class="success">
+                                                <th>#</th>
+                                                <th>Application</th>
+                                                <th>Service</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @forelse($subscriptions as $subscription)
+                                                @if($loop->index<5)
+                                                    <tr>
+                                                        <td>{{ $subscription->id }}</td>
+                                                        <td>{{ $subscription->application->name }}</td>
+                                                        <td>{{ $subscription->service->name }}</td>
+                                                    </tr>
+                                                @else
+                                                    <tr>
+                                                        <td colspan="5">
+                                                            <a class="btn btn-primary pull-right"
+                                                               href="{{ url('developer/subscriptions') }}">View More</a>
+                                                        </td>
+                                                    </tr>
+                                                    @break
+                                                @endif
+                                            @empty
+                                                <tr>
+                                                    <td colspan="5" class="text-center">No Subscriptions to Approve
+                                                    </td>
+                                                </tr>
+                                            @endforelse
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection

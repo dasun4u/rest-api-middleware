@@ -9,7 +9,7 @@
                         <h1>Applications</h1>
                     </div>
                     <div class="col-sm-4 btn-div-pad">
-                        <a href="{{ url('/admin/applications/create') }}">
+                        <a href="{{ url('/developer/applications/create') }}">
                             <button class="btn btn-success pull-right">Create new Application</button>
                         </a>
                     </div>
@@ -22,10 +22,9 @@
                                 <th>#</th>
                                 <th>Name</th>
                                 <th>Description</th>
-                                <th>Created By</th>
                                 <th>Created Time</th>
+                                <th>Approved</th>
                                 <th class="text-center">Active</th>
-                                <th class="text-center">Approve</th>
                                 <th class="text-center" colspan="3">Options</th>
                             </tr>
                             </thead>
@@ -35,31 +34,25 @@
                                     <td>{{ $application->id }}</td>
                                     <td>{{ $application->name }}</td>
                                     <td>{{ str_limit($application->description,50) }}</td>
-                                    <td>{{ $application->createdBy->username }}</td>
                                     <td>{{ \Carbon\Carbon::parse($application->created_at)->toDateTimeString() }}</td>
-                                    <td>
+                                    <td>{{ $application->approved?"Approved":"Not Approved" }}</td>
+                                    <td class="text-center">
                                         <input type="checkbox"
                                                {{ $application->active?"checked":"" }} class="toggle-switch-active"
                                                data-toggle="toggle" data-status-id="{{ $application->id }}"
                                                data-on="Active"
-                                               data-off="Inactive" data-onstyle="success">
+                                               data-off="Inactive" data-onstyle="success" {{ $application->approved?"":"disabled" }}>
+
                                     </td>
                                     <td>
-                                        <input type="checkbox"
-                                               {{ $application->approved?"checked":"" }} class="toggle-switch-approve"
-                                               data-toggle="toggle" data-approve-id="{{ $application->id }}"
-                                               data-on="Approved"
-                                               data-off="Not Approved" data-onstyle="success">
-                                    </td>
-                                    <td>
-                                        <a href="{{ url('admin/applications/'.$application->id) }}">
+                                        <a href="{{ url('developer/applications/'.$application->id) }}">
                                             <button class="btn btn-primary" title="Show">
                                             <span class="fa fas fa-eye"></span>
                                             </button>
                                         </a>
                                     </td>
                                     <td>
-                                        <a href="{{ url('admin/applications/'.$application->id.'/edit') }}">
+                                        <a href="{{ url('developer/applications/'.$application->id.'/edit') }}">
                                             <button class="btn btn-warning" title="Edit">
                                             <span class="fa fas fa-pencil"></span>
                                             </button>
@@ -74,7 +67,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="text-center">No Applications Found</td>
+                                    <td colspan="7" class="text-center">No Applications Found</td>
                                 </tr>
                             @endforelse
                             </tbody>
@@ -96,7 +89,7 @@
             function deleteApplication(id) {
                 $.ajax({
                     type: 'delete',
-                    url: '{!! url('admin/applications') !!}/' + id,
+                    url: '{!! url('developer/applications') !!}/' + id,
                     success: function (data) {
                         if (data["status"] == "SUCCESS") {
                             $('[data-delete-id="' + id + '"]').closest('tr').remove();
@@ -129,7 +122,7 @@
             function changeStatus(id, status) {
                 $.ajax({
                     type: 'get',
-                    url: '{!! url('admin/applications/changeStatus/') !!}/' + id + '/' + status,
+                    url: '{!! url('developer/applications/changeStatus/') !!}/' + id + '/' + status,
                     success: function (data) {
                         if (data["status"] == "SUCCESS") {
                             if (status == 1) {
@@ -149,43 +142,6 @@
                     }
                 });
             }
-
-            // Approve Switch
-            $(function () {
-                var approve_switches = $('.toggle-switch-approve');
-                approve_switches.bootstrapToggle();
-                approve_switches.change(function () {
-                    var checked = $(this).prop('checked');
-                    var application_id = $(this).data('approve-id');
-                    if (checked) {
-                        changeApprove(application_id, 1);
-                    } else {
-                        changeApprove(application_id, 0);
-                    }
-                })
-            });
-
-            // Change Approve AJAX
-            function changeApprove(id, status) {
-                $.ajax({
-                    type: 'get',
-                    url: '{!! url('admin/applications/changeApprove/') !!}/' + id + '/' + status,
-                    success: function (data) {
-                        if (data["status"] == "SUCCESS") {
-                            if (status == 1) {
-                                showAlert("SUCCESS", "Application Approved");
-                            } else {
-                                showAlert("SUCCESS", "Application Status");
-                            }
-                        } else {
-                            showAlert("FAIL", "Error in Application Approve");
-                        }
-                    }, error: function (data) {
-                        showAlert("FAIL", "Error in Application Approve");
-                    }
-                });
-            }
-
         </script>
 
 @endsection

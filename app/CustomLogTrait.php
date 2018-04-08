@@ -14,7 +14,7 @@ trait CustomLogTrait
 {
     public function allServiceLog($request, $response)
     {
-        $log_text = "CLIENT IP => ". $request->getClientIp() ." | REQUEST URL => ". $request->getUri()." | REQUEST METHOD => ".$request->getMethod()." | REQUEST BODY => ".(string)$request->getContent()." | RESPONSE STATUS CODE => ".$response->getStatusCode()." | RESPONSE BODY => ".(string)$response->getBody();
+        $log_text = "CLIENT IP => ". $request->getClientIp() ." | REQUEST URL => ". $request->getUri()." | REQUEST METHOD => ".$request->getMethod()." | REQUEST BODY => ".(string)$request->getContent()." | RESPONSE STATUS CODE => ".$response->getStatusCode()." | RESPONSE BODY => ".$response->getContent();
         $log = [$log_text];
         $orderLog = new Logger("API");
         $app_id = $request->application->id;

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Admin;
+namespace App\Http\Requests\Developer;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Request;
 
-class ServiceGroupRequest extends FormRequest
+class ServiceRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,15 +29,21 @@ class ServiceGroupRequest extends FormRequest
             return [
                 'name'=>'required|max:100',
                 'description'=>'max:1000',
-                'context'=>'required|max:200|alpha_dash|unique:service_groups,context',
-                'active'=>'in:on',
+                'context'=>'required|max:200|alpha_dash|unique:services,context',
+                'method'=>'required|max:20',
+                'production_uri'=>'required|max:200|url',
+                'sandbox_uri'=>'required|max:200|url',
+                'service_group'=>'required|exists:service_groups,id',
             ];
         } else if($method=='PUT') {
             return [
                 'name'=>'required|max:100',
                 'description'=>'max:1000',
-                'context'=>'required|max:200|alpha_dash|unique:service_groups,context,'.$this->segment(3),
-                'active'=>'in:on',
+                'context'=>'required|max:200|alpha_dash|unique:services,context,'.$this->service,
+                'method'=>'required|max:20',
+                'production_uri'=>'required|max:200|url',
+                'sandbox_uri'=>'required|max:200|url',
+                'service_group'=>'required|exists:service_groups,id',
             ];
         } else {
             return [];
@@ -61,7 +67,16 @@ class ServiceGroupRequest extends FormRequest
                 'context.max'=>'Context max character length is 200',
                 'context.alpha_dash'=>'Context invalid.(allow only _ and -)',
                 'context.unique'=>'Context already used. Try another',
-                'active.in'=>'Invalid state',
+                'method.required'=>'Method is required',
+                'method.max'=>'Method max character length is 20',
+                'production_uri.required'=>'Production URL is required',
+                'production_uri.max'=>'Production URL max character length is 200',
+                'production_uri.url'=>'Production URL is invalid',
+                'sandbox_uri.required'=>'Sandbox URL is required',
+                'sandbox_uri.max'=>'Sandbox URL max character length is 200',
+                'sandbox_uri.url'=>'Sandbox URL is invalid',
+                'service_group.required'=>'Service group is required',
+                'service_group.exists'=>'Service group is invalid',
             ];
         } else if($method=='PUT') {
             return [
@@ -72,7 +87,16 @@ class ServiceGroupRequest extends FormRequest
                 'context.max'=>'Context max character length is 200',
                 'context.alpha_dash'=>'Context invalid.(allow only _ and -)',
                 'context.unique'=>'Context already used. Try another',
-                'active.in'=>'Invalid state',
+                'method.required'=>'Method is required',
+                'method.max'=>'Method max character length is 20',
+                'production_uri.required'=>'Production URL is required',
+                'production_uri.max'=>'Production URL max character length is 200',
+                'production_uri.url'=>'Production URL is invalid',
+                'sandbox_uri.required'=>'Sandbox URL is required',
+                'sandbox_uri.max'=>'Sandbox URL max character length is 200',
+                'sandbox_uri.url'=>'Sandbox URL is invalid',
+                'service_group.required'=>'Service group is required',
+                'service_group.exists'=>'Service group is invalid',
             ];
         } else {
             return [];

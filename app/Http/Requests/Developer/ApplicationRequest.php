@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Admin;
+namespace App\Http\Requests\Developer;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Request;
@@ -30,8 +30,6 @@ class ApplicationRequest extends FormRequest
                 'name'=>'required|max:50|unique:applications,name',
                 'description'=>'max:1000',
                 'token_validity'=>'required|integer',
-                'active'=>'in:on',
-                'approved'=>'in:on',
                 'production_key'=>'required|max:200|unique:applications,production_key',
                 'production_secret'=>'required|max:200',
                 'sandbox_key'=>'required|max:200|unique:applications,sandbox_key',
@@ -42,8 +40,6 @@ class ApplicationRequest extends FormRequest
                 'name'=>'required|max:50|unique:applications,name,'.$this->application,
                 'description'=>'max:1000',
                 'token_validity'=>'required|integer',
-                'active'=>'in:on',
-                'approved'=>'in:on',
             ];
         } else {
             return [];
@@ -67,8 +63,6 @@ class ApplicationRequest extends FormRequest
                 'description.max'=>'Description max character length is 1000',
                 'token_validity.required'=>'Token Validity is required',
                 'token_validity.integer'=>'Token Validity must be an integer',
-                'active.in'=>'Invalid state',
-                'approved.in'=>'Invalid state',
                 'production_key.required'=>'Production key is required',
                 'production_key.max'=>'Production key max character length is 200',
                 'production_key.unique'=>'Production key is exist',
@@ -88,8 +82,6 @@ class ApplicationRequest extends FormRequest
                 'description.max'=>'Description max character length is 1000',
                 'token_validity.required'=>'Token Validity is required',
                 'token_validity.integer'=>'Token Validity must be an integer',
-                'active.in'=>'Invalid state',
-                'approved.in'=>'Invalid state',
             ];
         } else {
             return [];

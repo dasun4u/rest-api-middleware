@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Developer;
 
 use App\Application;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\ApplicationRequest;
+use App\Http\Requests\Developer\ApplicationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,8 +17,8 @@ class ApplicationController extends Controller
      */
     public function index()
     {
-        $applications = Application::paginate(10);
-        return view('pages.admin.application.list', ['applications' => $applications]);
+        $applications = Application::where('created_by',Auth::user()->id)->paginate(10);
+        return view('pages.developer.application.list', ['applications' => $applications]);
     }
 
     /**
@@ -28,7 +28,7 @@ class ApplicationController extends Controller
      */
     public function create()
     {
-        return view('pages.admin.application.create');
+        return view('pages.developer.application.create');
     }
 
     /**
@@ -43,9 +43,9 @@ class ApplicationController extends Controller
         $application->name = $request->input('name');
         $application->description = $request->input('description');
         $application->token_validity = $request->input('token_validity');
-        $application->active = ($request->input('active')=="on")?1:0;
-        $application->approved = ($request->input('approved')=="on")?1:0;
-        $application->approved_by = ($request->input('approved')=="on")?Auth::user()->id:0;
+        $application->active = 0;
+        $application->approved = 0;
+        $application->approved_by = 0;
         $application->created_by = Auth::user()->id;
         $application->production_key = $request->input('production_key');
         $application->production_secret = $request->input('production_secret');
@@ -56,7 +56,7 @@ class ApplicationController extends Controller
         } else {
             createSessionFlash('Application Create','FAIL','Error in Application create');
         }
-        return redirect('admin/applications');
+        return redirect('developer/applications');
     }
 
     /**
@@ -68,7 +68,7 @@ class ApplicationController extends Controller
     public function show($id)
     {
         $application = Application::find($id);
-        return view('pages.admin.application.show', ['application' => $application]);
+        return view('pages.developer.application.show', ['application' => $application]);
 
     }
 
@@ -81,7 +81,7 @@ class ApplicationController extends Controller
     public function edit($id)
     {
         $application = Application::find($id);
-        return view('pages.admin.application.edit', ['application' => $application]);
+        return view('pages.developer.application.edit', ['application' => $application]);
     }
 
     /**
@@ -98,9 +98,6 @@ class ApplicationController extends Controller
             $application->name = $request->input('name');
             $application->description = $request->input('description');
             $application->token_validity = $request->input('token_validity');
-            $application->active = ($request->input('active') == "on") ? 1 : 0;
-            $application->approved = ($request->input('approved') == "on") ? 1 : 0;
-            $application->approved_by = ($request->input('approved') == "on") ? Auth::user()->id : 0;
             if ($application->save()) {
                 createSessionFlash('Application Update','SUCCESS','Application update successfully');
             } else {
@@ -109,7 +106,7 @@ class ApplicationController extends Controller
         } else {
             createSessionFlash('Application Update','FAIL','Invalid Application');
         }
-        return redirect('admin/applications');
+        return redirect('developer/applications');
     }
 
     /**
@@ -134,19 +131,6 @@ class ApplicationController extends Controller
             $application->active = $status;
             if ($application->save()) {
                 return response()->json(["id" => $id, "status" => "SUCCESS", "message" => "Successfully Change the status"]);
-            }
-        }
-        return response()->json(["id" => $id, "status" => "FAIL", "message" => "Error in Change Status"]);
-    }
-
-    public function changeApprove($id, $status)
-    {
-        $application = Application::find($id);
-        if ($application != null) {
-            $application->approved = $status;
-            $application->approved_by = Auth::user()->id;
-            if ($application->save()) {
-                return response()->json(["id" => $id, "status" => "SUCCESS", "message" => "Successfully Changed"]);
             }
         }
         return response()->json(["id" => $id, "status" => "FAIL", "message" => "Error in Change Status"]);
