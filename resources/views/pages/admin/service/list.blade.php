@@ -25,6 +25,7 @@
                                 <th>Method</th>
                                 <th>Created Time</th>
                                 <th class="text-center">Active</th>
+                                <th class="text-center">Approve</th>
                                 <th class="text-center" colspan="3">Options</th>
                             </tr>
                             </thead>
