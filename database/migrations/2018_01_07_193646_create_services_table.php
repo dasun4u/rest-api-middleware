@@ -22,7 +22,7 @@ class CreateServicesTable extends Migration
             $table->string('production_uri',200);
             $table->string('sandbox_uri',200);
             $table->string('method',10);
-            $table->string('description',1000);
+            $table->string('description',1000)->nullable();
             $table->integer('service_group_id');
             $table->timestamps();
         });
