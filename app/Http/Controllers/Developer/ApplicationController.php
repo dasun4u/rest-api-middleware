@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Developer;
 use App\Application;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Developer\ApplicationRequest;
+use App\Subscription;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -68,7 +69,8 @@ class ApplicationController extends Controller
     public function show($id)
     {
         $application = Application::find($id);
-        return view('pages.developer.application.show', ['application' => $application]);
+        $subscriptions = Subscription::with(['application','service'])->where('application_id',$id)->where('subscribed_by',Auth::user()->id)->get();
+        return view('pages.developer.application.show', ['application' => $application, 'subscriptions' => $subscriptions]);
 
     }
 

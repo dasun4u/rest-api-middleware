@@ -82,6 +82,25 @@
                 </div>
             </div>
         </div>
+        <div class="row min-pad">
+            {{--Subscription List--}}
+            <div class="col-sm-12 box-wrap">
+                <div class="form-group">
+                    <label for="sandbox_secret">Subscribed Services</label>
+                    <ol>
+                        @forelse($subscriptions as $subscription)
+                            <li>{{ $subscription->service->name }}<br/>
+                                Middleware service  URI => http://{your domain}/api/{{ $subscription->service->group->context }}/{{ $subscription->service->context }}/{rest of the segments}<br/>
+                                Direct production service URI => {{ $subscription->service->production_uri }}<br/>
+                                Direct sandbox service URI => {{ $subscription->service->sandbox_uri }}</li>
+                            </br>
+                        @empty
+                            No Subscriptions
+                        @endforelse
+                    </ol>
+                </div>
+            </div>
+        </div>
         <div class="row form-btn-pad-left form-btn-pad-bottom">
             <div class="col-sm-12">
                 <div class="form-group">
